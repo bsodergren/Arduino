@@ -8,7 +8,6 @@
 //initaize shifter using the Shifter library
 Shifter shifter(SER_Pin, RCLK_Pin, SRCLK_Pin, NUM_REGISTERS); 
 
-
 #define REDPIN 10
 #define GREENPIN 11
 #define BLUEPIN 9
@@ -46,9 +45,16 @@ void swap()
 {
 }
 
-void rotate(delayValue)
+int delaySpeed()
 {
-    for (i = 0; i < 8; i++) {
+   sensorValue = analogRead(sensorPin); 
+  delayValue = map(sensorValue, 0, 1023, 20, 500); 
+  return delayValue;
+}
+
+void rotate()
+{
+  for (i = 0; i < 8; i++) {
     shifter.clear(); //set all pins on the shift register chain to LOW
     shifter.setPin(i,HIGH); //set pin 1 in the chain(second pin) HIGH
 
@@ -60,18 +66,22 @@ void rotate(delayValue)
     }
     shifter.write(); //send changes to the chain and display the 
 
-      delay(delayValue);
+      delay(delaySpeed());
 
   }
 }
-  
+
 
 void loop() {
 
-  sensorValue = analogRead(sensorPin); 
-  delayValue = map(sensorValue, 0, 1023, 20, 500); 
+ 
+  
+  
+  
+  
 
 }
+
 
 void white()
 {
@@ -93,4 +103,5 @@ void blue()
   analogWrite(GREENPIN, 0);
   analogWrite(BLUEPIN, 255);
 }
+
 
